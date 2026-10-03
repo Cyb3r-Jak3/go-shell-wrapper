@@ -21,8 +21,6 @@ func RunCommand(ctx context.Context, command string) ([]string, []string, error)
 		shell = "bash"
 	}
 	cmd := cmd.NewCmd(shell, command)
-	status := <-cmd.Start() // run blocking
-	stdout := status.Stdout
-	stderr := status.Stderr
-	return stdout, stderr, status.Error
+	status := <-cmd.Start()
+	return status.Stdout, status.Stderr, status.Error
 }
