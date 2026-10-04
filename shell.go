@@ -8,7 +8,7 @@ import (
 	"github.com/go-cmd/cmd"
 )
 
-func RunCommand(ctx context.Context, command string) ([]string, []string, error) {
+func RunCommand(ctx context.Context, command string) cmd.Status {
 	var shell string
 	if runtime.GOOS == "windows" {
 		powershellCheck := exec.Command("powershell", "-Command", "Write-Output 'PowerShell Available'")
@@ -21,6 +21,5 @@ func RunCommand(ctx context.Context, command string) ([]string, []string, error)
 		shell = "bash"
 	}
 	cmd := cmd.NewCmd(shell, command)
-	status := <-cmd.Start()
-	return status.Stdout, status.Stderr, status.Error
+	return <-cmd.Start()
 }
